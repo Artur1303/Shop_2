@@ -13,7 +13,10 @@
             {% if perms.webapp.change_product %}
                 <p><a href="{% url 'webapp:product_update' product.pk %}">Update</a></p>
             {% endif %}
-            <p><a href="{% url 'webapp:product_delete' product.pk %}">Delete</a></p>
+        {% if perms.webapp.delete_product %}
+                <p><a href="{% url 'webapp:product_delete' product.pk %}">Delete</a></p>
+            {% endif %}
+
             {% include 'partial/cart_add_form.html' %}
         </div>
     {% endfor %}

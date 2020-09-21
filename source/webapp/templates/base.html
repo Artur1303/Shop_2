@@ -21,8 +21,10 @@
                 <li><a href="{% url "webapp:index" %}">Home</a></li>
                 <li><a href="{% url "webapp:cart_view" %}">Cart</a></li>
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url "webapp:product_create" %}">Add Product</a></li>
-                    {% block menu %}{% endblock %}
+                     {% if perms.webapp.add_product %}
+                        <li><a href="{% url "webapp:product_create" %}">Add Product</a></li>
+                    {% endif %}
+
                     <li><a href="{% url 'accounts:detail' request.user.pk %}">
                         Привет, {{ request.user.get_full_name|default:request.user.username }}
                     </a></li>
