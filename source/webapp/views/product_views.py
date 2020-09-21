@@ -1,4 +1,5 @@
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView 
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
 
 from .base_views import SearchView
@@ -38,10 +39,11 @@ class ProductCreateView(CreateView):
         return reverse('webapp:product_view', kwargs={'pk': self.object.pk})
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'product/product_update.html'
+    permission_required = 'webapp.change_product'
 
     def get_success_url(self):
         return reverse('webapp:product_view', kwargs={'pk': self.object.pk})
