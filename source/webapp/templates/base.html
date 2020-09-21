@@ -9,8 +9,8 @@
     <title>{% block title %}My Site{% endblock %}</title>
 
     <!-- XDSoft DateTimePicker -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block links %}{% endblock %}
 </head>
@@ -23,7 +23,9 @@
                 {% if request.user.is_authenticated %}
                      {% if perms.webapp.add_product %}
                         <li><a href="{% url "webapp:product_create" %}">Add Product</a></li>
-                    {% endif %}
+                    <li><a href="{% url "webapp:order_list" request.user.pk %}">Order List</a></li>
+                     {% endif %}
+
 
                     <li><a href="{% url 'accounts:detail' request.user.pk %}">
                         Привет, {{ request.user.get_full_name|default:request.user.username }}

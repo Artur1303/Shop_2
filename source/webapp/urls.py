@@ -2,8 +2,7 @@ from django.urls import path, include
 
 from webapp.views import IndexView, ProductView, ProductCreateView, \
     ProductUpdateView, ProductDeleteView, CartView, CartAddView, \
-    CartDeleteView, CartDeleteOneView, OrderCreateView
-
+    CartDeleteView, CartDeleteOneView, OrderCreateView, OrderList
 
 app_name = 'webapp'
 
@@ -18,6 +17,8 @@ urlpatterns = [
             path('update/', ProductUpdateView.as_view(), name='product_update'),
             path('delete/', ProductDeleteView.as_view(), name='product_delete'),
             path('add-to-cart/', CartAddView.as_view(), name='product_add_to_cart'),
+
+
         ])),
     ])),
 
@@ -30,4 +31,5 @@ urlpatterns = [
     ])),
 
     path('order/create/', OrderCreateView.as_view(), name='order_create'),
+    path('orderlist/<int:pk>', OrderList.as_view(), name='order_list'),
 ]
