@@ -108,6 +108,9 @@ class OrderProduct(models.Model):
                               verbose_name='Заказ', related_name='order_products')
     qty = models.IntegerField(verbose_name='Количество')
 
+    def get_summ(self):
+        return self.product.price * self.qty
+
     def __str__(self):
         return f'{self.product.name} - {self.order.name} - {self.order.format_time()}'
 

@@ -8,7 +8,7 @@
       <th scope="col">Продукт</th>
       <th scope="col">Количество</th>
       <th scope="col">Цена</th>
-        <th scope="col">Количество</th>
+        <th scope="col">Сумма</th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +20,7 @@
       <td>{{ i.product.name }}</td>
       <td>{{ i.qty }}</td>
       <td>{{ i.product.price }}</td>
+                <td>{{ i.get_summ}}</td>
                 <td>{{ i.total }}</td>
     </tr>
         {% endfor %}
