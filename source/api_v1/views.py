@@ -23,16 +23,15 @@ class OrderApi(APIView):
     permission_classes = [IsAdminUser]
     def get(self,request,*args,**kwargs):
         print(request)
-        order = get_object_or_404(Order, pk=kwargs.get('pk'))
-        print(order)
-        slr = OrderSerializer(order)
+        object = get_object_or_404(Order, pk=kwargs.get('pk'))
+        slr = OrderSerializer(object)
         return Response(slr.data)
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        order = Order.objects.create(name=data['name'], address=data['address'], phone=data['phone'])
+        object = Order.objects.create(name=data['name'], address=data['address'], phone=data['phone'])
         for i in data['order_products']:
-            order_product = OrderProduct.objects.create(product_id=i['product']['id'], order_id=order.pk,
+            order_product = OrderProduct.objects.create(product_id=i['product']['id'], order_id=object.pk,
                                                         qty=i['qty'])
         return Response({"message": "Заказ был создан"}, status=204)
 
