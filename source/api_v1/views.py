@@ -47,10 +47,6 @@ class OrderApi(APIView):
         # массовое удаление всех товаров в корзине
         cart_products.delete()
 
-
-        # for i in data['order_products']:
-        #     order_product = OrderProduct.objects.create(product_id=i['product']['id'], order_id=object.pk, qty=i['qty'])
-
         return Response({"message": "Заказ  создан"}, status=200)
 
     def get_permissions(self):
