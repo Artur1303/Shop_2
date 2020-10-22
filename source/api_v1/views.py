@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import SAFE_METHODS, IsAdminUser
 
 from api_v1.serializers import ProductSerializer, OrderSerializer
-from webapp.models import Product, Order, OrderProduct
+from webapp.models import Product, Order, OrderProduct, Cart
 
 
 class ProductViewSet(ModelViewSet):
@@ -30,10 +30,11 @@ class OrderApi(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
         object = Order.objects.create(name=data['name'], address=data['address'], phone=data['phone'])
+        cart_ids = self.request.session.get('cart_ids', [])
         for i in data['order_products']:
-            order_product = OrderProduct.objects.create(product_id=i['product']['id'], order_id=object.pk,
-                                                        qty=i['qty'])
-        return Response({"message": "Заказ был создан"}, status=204)
+            order_product = OrderProduct.objects.create(product_id=i['product']['id'], order_id=object.pk, qty=i['qty'])
+
+        return Response({"message": "Заказ  создан"}, status=200)
 
     def get_permissions(self):
         if self.request.method not in SAFE_METHODS:

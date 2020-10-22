@@ -8,13 +8,10 @@ from webapp.models import Cart, Product, Order, OrderProduct
 
 
 class CartView(ListView):
-    # model = Cart
     template_name = 'order/cart_view.html'
     context_object_name = 'cart'
 
-    # вместо model = Cart
-    # для выполнения запроса в базу через модель
-    # вместо подсчёта total-ов в Python-е.
+
     def get_queryset(self):
         return Cart.get_with_product().filter(pk__in=self.get_cart_ids())
 
