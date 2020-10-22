@@ -30,9 +30,26 @@ class OrderApi(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
         object = Order.objects.create(name=data['name'], address=data['address'], phone=data['phone'])
-        cart_ids = self.request.session.get('cart_ids', [])
-        for i in data['order_products']:
-            order_product = OrderProduct.objects.create(product_id=i['product']['id'], order_id=object.pk, qty=i['qty'])
+        cart_products = Cart.objects.all()
+        products = []
+        order_products = []
+        for item in cart_products:
+            product = item.product
+            qty = item.qty
+            product.amount -= qty
+            products.append(product)
+            order_product = OrderProduct(order=object, product=product, qty=qty)
+            order_products.append(order_product)
+        # массовое создание всех товаров в заказе
+        OrderProduct.objects.bulk_create(order_products)
+        # массовое обновление остатка у всех товаров
+        Product.objects.bulk_update(products, ('amount',))
+        # массовое удаление всех товаров в корзине
+        cart_products.delete()
+
+
+        # for i in data['order_products']:
+        #     order_product = OrderProduct.objects.create(product_id=i['product']['id'], order_id=object.pk, qty=i['qty'])
 
         return Response({"message": "Заказ  создан"}, status=200)
 
